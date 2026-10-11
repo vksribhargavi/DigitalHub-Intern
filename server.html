@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f3ee">
+  <title>Nexora — Vizag Bees</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="theme.css">
+</head>
+<body>
+  <div id="appView" class="app-shell">
+    <aside class="sidebar">
+      <a class="brand side-brand" href="#"><span class="brand-mark">N</span><span>NEXORA<small>VIZAG BEES</small></span></a>
+      <div class="workspace-label">WORKSPACE</div>
+      <button class="nav-item selected" data-view="overview"><span>◫</span> Overview</button>
+      <button class="nav-item" data-view="projects"><span>▦</span> Projects <b id="sideProjectCount">0</b></button>
+      <button class="nav-item" data-view="team"><span>♧</span> Team</button>
+      <button class="nav-item" data-view="settings"><span>⚙</span> Settings</button>
+      <div class="side-section"><span>YOUR TEAM</span><button id="sideAddMember" class="icon-button" title="Add team member">+</button></div>
+      <div id="sidebarMembers" class="side-members"></div>
+      <div class="sidebar-bottom"><div class="side-note"><span class="note-icon">✦</span><div><b>Keep the momentum</b><small>Small steps make big things.</small></div></div></div>
+    </aside>
+    <main class="main-area">
+      <header class="topbar">
+        <div class="crumb">Nexora <span>/</span> <b id="pageCrumb">Overview</b></div>
+        <div class="top-actions"><button class="alerts-button" id="alertsButton" aria-label="Deadline alerts">♧ <span id="alertCount" class="alert-dot" hidden></span></button></div>
+      </header>
+      <section class="page-content">
+        <div class="welcome-row">
+          <div><div class="eyebrow" id="dateLabel">TEAM WORKSPACE</div><h1 id="pageTitle">A little progress,<br><em>a lot of momentum.</em></h1><p class="muted" id="pageDescription">Here’s what’s moving across Vizag Bees.</p></div>
+          <button id="newProjectBtn" class="button primary">＋ <span>New project</span></button>
+        </div>
+        <div id="alertBanner" class="alert-banner" hidden><span>◷</span><div><b id="alertHeading">Deadlines coming up</b><small id="alertText"></small></div><button id="dismissAlert" class="icon-button">×</button></div>
+        <div id="overviewView">
+          <div class="stat-grid">
+            <article class="stat-card"><span>ACTIVE PROJECTS <i>↗</i></span><strong id="statActive">0</strong><small>In progress right now</small></article>
+            <article class="stat-card"><span>COMPLETED <i class="green">✓</i></span><strong id="statDone">0</strong><small>Ideas brought to life</small></article>
+            <article class="stat-card"><span>TEAM MEMBERS <i class="purple">♧</i></span><strong id="statMembers">5</strong><small>On the same wavelength</small></article>
+            <article class="stat-card warm"><span>UP NEXT <i>◷</i></span><strong id="statDue">—</strong><small id="statDueText">No upcoming deadlines</small></article>
+          </div>
+          <div class="section-heading"><div><h2>Projects in motion <span id="projectHeadingCount">0</span></h2><p>A snapshot of everything your team is working on.</p></div><button class="text-button" data-view="projects">All projects <span>→</span></button></div>
+          <div id="projectCards" class="project-grid"></div>
+          <div class="section-heading team-heading"><div><h2>Good people, great work</h2><p>The crew making it happen, together.</p></div><button class="text-button" data-view="team">Meet the team <span>→</span></button></div>
+          <div id="teamCards" class="team-grid"></div>
+        </div>
+        <div id="projectsView" hidden>
+          <div class="toolbar">
+            <div class="search-box"><span>⌕</span><input id="projectSearch" placeholder="Search projects…"></div>
+            <select id="statusFilter"><option value="all">All statuses</option><option>In progress</option><option>Planning</option><option>Completed</option></select>
+            <select id="sortProjects"><option value="deadline">Sort: deadline</option><option value="name">Sort: name</option><option value="status">Sort: status</option></select>
+            <select id="memberFilter"><option value="all">All members</option></select>
+            <button id="exportProjects" class="button secondary" type="button">↓ Export CSV</button>
+          </div>
+          <div id="allProjectCards" class="project-grid"></div>
+        </div>
+        <div id="teamView" hidden><div class="team-intro"><div><h2>Better work, together.</h2><p>Meet the people behind Vizag Bees.</p></div><button class="button secondary" id="addMemberBtn">＋ Add member</button></div><div id="allTeamCards" class="team-grid team-grid-large"></div></div>
+        <div id="settingsView" hidden><div class="team-intro"><div><h2>Your workspace, your way.</h2><p>Choose how Nexora looks on this device.</p></div></div><section class="settings-card"><div class="settings-copy"><span class="settings-icon">◐</span><div><b>Appearance</b><small>Switch between light and dark mode.</small></div></div><div class="theme-options" role="group" aria-label="Choose appearance"><button type="button" class="theme-option" data-theme="light">☼ <span>Light</span></button><button type="button" class="theme-option" data-theme="dark">☾ <span>Dark</span></button></div></section></div>
+        <footer class="page-footer">Made for good people doing meaningful work. <span>✦</span></footer>
+      </section>
+    </main>
+  </div>
+  <div id="projectModal" class="modal-backdrop" hidden>
+    <section class="modal">
+      <button class="modal-close" data-close>×</button><div class="eyebrow">VIZAG BEES PROJECTS</div>
+      <h2 id="projectModalTitle">A new thing in motion.</h2><p class="muted">Give your idea a name and a next step.</p>
+      <form id="projectForm">
+        <label>Project name<input name="name" required maxlength="80" placeholder="e.g. Community Garden"></label>
+        <label>Description<textarea name="description" rows="3" maxlength="240" placeholder="A little context goes a long way…"></textarea></label>
+        <div class="form-row"><label>Status<select name="status"><option>In progress</option><option>Planning</option><option>Completed</option></select></label><label>Deadline<input name="deadline" type="date"></label></div>
+        <label>Progress <span id="progressValue">50%</span><input name="progress" id="progressInput" type="range" min="0" max="100" value="50"></label>
+        <label>Lead member<select name="lead" id="projectLead"></select></label>
+        <div class="modal-actions"><button type="button" class="button secondary" data-close>Cancel</button><button class="button primary" type="submit">Save project ↗</button></div>
+      </form>
+    </section>
+  </div>
+  <div id="memberModal" class="modal-backdrop" hidden><section class="modal"><button class="modal-close" data-close>×</button><div class="eyebrow">VIZAG BEES TEAM</div><h2>Add a good person.</h2><p class="muted">Set their workspace role and contact details.</p><form id="memberForm"><label>Full name<input name="name" required maxlength="60" placeholder="Their name"></label><label>Email address<input name="email" required type="email" placeholder="name@example.com"></label><label>Role<select name="role"><option>Member</option><option>Admin</option><option>Project lead</option><option>Viewer</option></select></label><div class="modal-actions"><button type="button" class="button secondary" data-close>Cancel</button><button class="button primary" type="submit">Add to team ↗</button></div></form></section></div>
+  <div id="toast" class="toast" role="status"></div>
+  <script src="app.js"></script>
+</body>
+</html>
